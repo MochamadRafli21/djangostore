@@ -73,3 +73,44 @@ class User(AbstractBaseUser, PermissionsMixin):
         Sends an email to this User.
         '''
         send_mail(subject, message, from_email, [self.email], **kwargs)
+
+# User and Product relation
+
+#Carts
+Class Carts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(Item)
+
+
+#Order
+Class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(Item)
+    status = models.CharField()
+    total_price = models.IntegerField()
+    desination_address = models.CharField()
+    location = models.CharField()
+
+
+# Create Product related model
+
+# ITEM will be product added to cart
+Class Item(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    qty = models.IntegerField()
+    total_price = models.IntegerField()
+
+#Product
+Class Product(models.Model):
+    name = models.CharField(max_length=120)
+    description = models.CharField(max_length=250, null=True)
+    stock = models.IntegerField()
+    launch_date = model.DateField(null=True)
+    producer_name = model.CharField(max_length=120,null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+#Category
+Class Category(models.model):
+    title = models.CharField(max_length=120)
+    description = models.CharField(max_length=250,null=True)
+

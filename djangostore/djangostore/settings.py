@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework_simplejwt',
+    'store',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +87,7 @@ WSGI_APPLICATION = 'djangostore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'STORE', 
+        'NAME': 'store', 
         'USER': 'postgres', 
         'PASSWORD': 'root',
         'HOST': '127.0.0.1', 
@@ -140,3 +141,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+AUTHENTICATION_BACKENDS = ['store.auth_backends.EmailBackend']
+
+AUTH_USER_MODEL = 'store.User'

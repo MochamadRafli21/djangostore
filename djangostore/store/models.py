@@ -78,14 +78,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 #Category
 class Category(models.Model):
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=120, null=False)
     description = models.CharField(max_length=250,null=True)
+    
+    def __str__(self) -> str:
+        return self.title
 
 #Product
 class Product(models.Model):
     name = models.CharField(max_length=120)
     description = models.CharField(max_length=250, null=True)
-    stock = models.IntegerField()
+    stock = models.PositiveIntegerField()
     launch_date = models.DateField(null=True)
     producer_name = models.CharField(max_length=120,null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -93,8 +96,8 @@ class Product(models.Model):
 # ITEM will be product added to cart
 class Item(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    qty = models.IntegerField()
-    total_price = models.IntegerField()
+    qty = models.PositiveIntegerField()
+    total_price = models.PositiveIntegerField()
 
 # User and Product relation
 
@@ -109,6 +112,6 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(Item)
     status = models.CharField(max_length=20)
-    total_price = models.IntegerField()
+    total_price = models.PositiveIntegerField()
     desination_address = models.CharField(max_length=250)
     location = models.CharField(max_length=120)

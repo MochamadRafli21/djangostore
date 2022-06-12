@@ -8,12 +8,6 @@ from rest_framework.decorators import api_view
 from .models import Category
 from .serializers import CategorySerializer
 
-class HelloView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        content = {'message': 'Hello, World!'}
-        return Response(content)
 
 @api_view(['GET'])
 def categoryOverView(request):

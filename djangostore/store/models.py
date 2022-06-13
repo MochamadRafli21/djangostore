@@ -92,6 +92,9 @@ class Product(models.Model):
     launch_date = models.DateField(null=True)
     producer_name = models.CharField(max_length=120,null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return self.name
 
 # ITEM will be product added to cart
 class Item(models.Model):

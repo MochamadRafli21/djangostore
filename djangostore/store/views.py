@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view
-from .models import Category
-from .serializers import CategorySerializer
+from .models import Category, Product
+from .serializers import CategorySerializer, Product
 
 
 @api_view(['GET'])
@@ -87,3 +87,38 @@ def delete_category(request, pk):
         return Response(status=status.HTTP_202_ACCEPTED)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def product_list(request):
+    # check if user is admin
+    # permission_classes = (IsAdmin,)
+
+    if request.query_params:
+        products = Product.objects.get(**request.query_param.dict())
+    else:
+        products = Product.objects.all()
+    
+    if products:
+        data = ProductSerializer(products, many=True)
+        return Response(data.data)
+    else :
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def add_products(request):
+    # check if user is admin
+    # permission_classes = (IsAdmin,)
+
+    product = ProductSerializer(data=request.data)
+
+    # validating for already existing data
+    if Product.objects.filter(**request.data).exists():
+        raise serializers.ValidationError('This data already exists')
+    
+    if product.is_valid():
+        product.save()
+        return Response(category.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    

@@ -12,4 +12,7 @@ urlpatterns = [
     # jwt endpoint
     path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    # product
+        path('product/', views.product_list, name="product-list"),
+    path('product/create/', views.add_products, name='product-add'),
 ]
